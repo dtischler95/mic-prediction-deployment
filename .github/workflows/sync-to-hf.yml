@@ -17,4 +17,4 @@ jobs:
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
         run: |
-          git push https://danielt95:$HF_TOKEN@huggingface.co/spaces/danielt95/mic-prediction-api master:main
+          git push --force https://danielt95:$HF_TOKEN@huggingface.co/spaces/danielt95/mic-prediction-api master:main
