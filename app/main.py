@@ -3,11 +3,18 @@
 import anyio
 import httpx
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, ValidationError, field_validator
 
 from app.model import MAX_LENGTH, load_model, predict
 
 app = FastAPI(title="MIC Prediction API")
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_methods=["GET", "POST"],
+    allow_headers=["*"],
+)
 model, tokenizer = load_model()
 
 VALID_AMINO_ACIDS = set("ACDEFGHIKLMNPQRSTVWY")

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MIC Prediction</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+  </style>
+</head>
+<body class="bg-slate-100 min-h-screen flex items-center justify-center p-6">
+  <main class="w-full max-w-md bg-white rounded-2xl shadow-lg p-8 space-y-6">
+    <div>
+      <h1 class="text-2xl font-bold text-slate-900">🧬 MIC Prediction</h1>
+      <p class="text-slate-500 text-sm mt-1">
+        Predict the log10 MIC of a peptide against <em>Acinetobacter baumannii</em>.
+      </p>
+    </div>
+
+    <section>
+      <h2 class="text-sm font-semibold text-slate-700 mb-2">By sequence</h2>
+      <form id="sequence-form" class="space-y-2">
+        <label for="sequence" class="block text-sm text-slate-600">Peptide sequence (max 36 amino acids)</label>
+        <input
+          type="text" id="sequence" name="sequence" placeholder="e.g. GWKRKRFG" required
+          class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+        <button type="submit" class="w-full bg-blue-600 text-white rounded-lg py-2 text-sm font-semibold hover:bg-blue-700 transition">
+          Predict
+        </button>
+      </form>
+    </section>
+
+    <section>
+      <h2 class="text-sm font-semibold text-slate-700 mb-2">By UniProt accession</h2>
+      <form id="uniprot-form" class="space-y-2">
+        <label for="accession" class="block text-sm text-slate-600">UniProt accession</label>
+        <input
+          type="text" id="accession" name="accession" placeholder="e.g. P0C349" required
+          class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+        <button type="submit" class="w-full bg-blue-600 text-white rounded-lg py-2 text-sm font-semibold hover:bg-blue-700 transition">
+          Predict
+        </button>
+      </form>
+    </section>
+
+    <section id="result" hidden class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 text-sm">
+      <h2 class="font-semibold text-emerald-800 mb-1">Result</h2>
+      <p class="text-emerald-700"><strong>Sequence:</strong> <span id="result-sequence"></span></p>
+      <p class="text-emerald-700"><strong>Predicted log10 MIC:</strong> <span id="result-value"></span></p>
+    </section>
+
+    <section id="error" hidden class="bg-red-50 border border-red-200 rounded-lg p-4 text-sm text-red-700">
+      <p id="error-message"></p>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
