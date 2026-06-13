@@ -7,6 +7,7 @@ RUN pip install --no-cache-dir torch --index-url https://download.pytorch.org/wh
 RUN pip install --no-cache-dir -r requirements.txt
 
 COPY app ./app
+COPY frontend ./frontend
 
 EXPOSE 7860
 

@@ -1,4 +1,4 @@
-const API_BASE = "https://danielt95-mic-prediction-api.hf.space";
+const API_BASE = "";
 
 const resultSection = document.getElementById("result");
 const resultSequence = document.getElementById("result-sequence");

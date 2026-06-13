@@ -4,6 +4,7 @@ import anyio
 import httpx
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, ValidationError, field_validator
 
 from app.model import MAX_LENGTH, load_model, predict
@@ -15,6 +16,7 @@ app.add_middleware(
     allow_methods=["GET", "POST"],
     allow_headers=["*"],
 )
+app.mount("/ui", StaticFiles(directory="frontend", html=True), name="frontend")
 model, tokenizer = load_model()
 
 VALID_AMINO_ACIDS = set("ACDEFGHIKLMNPQRSTVWY")
