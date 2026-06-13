@@ -1,3 +1,12 @@
+---
+title: MIC Prediction API
+emoji: 🧬
+colorFrom: blue
+colorTo: green
+sdk: docker
+pinned: false
+---
+
 # MIC Prediction Deployment
 
 A small deployment project: a fine-tuned [ProtBERT](https://huggingface.co/Rostlab/prot_bert_bfd)
