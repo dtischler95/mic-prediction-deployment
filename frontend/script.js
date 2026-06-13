@@ -2,14 +2,14 @@ const API_BASE = "";
 
 const resultSection = document.getElementById("result");
 const resultSequence = document.getElementById("result-sequence");
-const resultValue = document.getElementById("result-value");
+const resultMic = document.getElementById("result-mic");
 const errorSection = document.getElementById("error");
 const errorMessage = document.getElementById("error-message");
 
 function showResult(sequence, value) {
   errorSection.hidden = true;
   resultSequence.textContent = sequence;
-  resultValue.textContent = value;
+  resultMic.textContent = (10 ** value).toFixed(3);
   resultSection.hidden = false;
 }
 
