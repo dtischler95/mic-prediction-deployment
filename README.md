@@ -7,6 +7,8 @@ sdk: docker
 pinned: false
 ---
 
+[![Hugging Face Space](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Space-blue)](https://huggingface.co/spaces/danielt95/mic-prediction-api)
+
 # MIC Prediction Deployment
 
 A small deployment project: a fine-tuned [ProtBERT](https://huggingface.co/Rostlab/prot_bert_bfd)
