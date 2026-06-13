@@ -24,8 +24,13 @@ Model weights: [danielt95/acinetobacter-baumannii-mic-bert](https://huggingface.
 - [x] Inference code (`app/model.py`)
 - [x] FastAPI service (`app/main.py`)
 - [x] Dockerfile
-- [ ] Hugging Face Space
-- [ ] GitHub Actions sync
+- [x] Hugging Face Space
+- [x] GitHub Actions sync
+
+## Live demo
+
+The API is deployed at https://danielt95-mic-prediction-api.hf.space - Swagger UI at
+https://danielt95-mic-prediction-api.hf.space/docs
 
 ## Endpoints
 
