@@ -33,7 +33,7 @@ Model weights: [danielt95/acinetobacter-baumannii-mic-bert](https://huggingface.
 The API is deployed at https://danielt95-mic-prediction-api.hf.space - Swagger UI at
 https://danielt95-mic-prediction-api.hf.space/docs
 
-The frontend is served at https://danielt95-mic-prediction-api.hf.space/ui/
+The frontend is served at https://danielt95-mic-prediction-api.hf.space/ui/index.html
 
 ## Endpoints
 
