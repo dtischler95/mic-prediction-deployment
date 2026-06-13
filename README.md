@@ -16,6 +16,15 @@ Model weights: [danielt95/acinetobacter-baumannii-mic-bert](https://huggingface.
 - [ ] Hugging Face Space
 - [ ] GitHub Actions sync
 
+## Endpoints
+
+- `GET /` - health check.
+- `POST /predict` - predict the log10 MIC for a peptide sequence given in the request body.
+  Sequence is validated: only the 20 standard amino acids, non-empty, max 36 residues.
+- `GET /predict-by-uniprot/{accession}` - fetch a sequence from UniProt by accession ID
+  (e.g. `P01308`) and predict its log10 MIC. Same validation as `/predict` applies to the
+  fetched sequence.
+
 ## Local setup
 
 ```bash
