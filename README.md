@@ -17,7 +17,7 @@ sequence against *Acinetobacter baumannii*, served via a FastAPI API and deploye
 Hugging Face Space (Docker), with GitHub Actions syncing pushes to the Space.
 
 Model weights: [danielt95/acinetobacter-baumannii-mic-bert](https://huggingface.co/danielt95/acinetobacter-baumannii-mic-bert)
-(fine-tuned as part of my [peptideTransformer](https://github.com/) Master's thesis project).
+(fine-tuned as part of my [peptideTransformer](https://github.com/dtischler95/peptideTransformer) Master's thesis project).
 
 ## Live demo
 
