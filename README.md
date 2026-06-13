@@ -19,15 +19,6 @@ Hugging Face Space (Docker), with GitHub Actions syncing pushes to the Space.
 Model weights: [danielt95/acinetobacter-baumannii-mic-bert](https://huggingface.co/danielt95/acinetobacter-baumannii-mic-bert)
 (fine-tuned as part of my [peptideTransformer](https://github.com/) Master's thesis project).
 
-## Status
-
-- [x] Inference code (`app/model.py`)
-- [x] FastAPI service (`app/main.py`)
-- [x] Dockerfile
-- [x] Hugging Face Space
-- [x] GitHub Actions sync
-- [x] Frontend (`frontend/`)
-
 ## Live demo
 
 The API is deployed at https://danielt95-mic-prediction-api.hf.space - Swagger UI at
