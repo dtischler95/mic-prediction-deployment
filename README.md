@@ -12,7 +12,7 @@ Model weights: [danielt95/acinetobacter-baumannii-mic-bert](https://huggingface.
 
 - [x] Inference code (`app/model.py`)
 - [x] FastAPI service (`app/main.py`)
-- [ ] Dockerfile
+- [x] Dockerfile
 - [ ] Hugging Face Space
 - [ ] GitHub Actions sync
 
@@ -34,3 +34,14 @@ uvicorn app.main:app --reload --port 8000             # start the API
 ```
 
 Then open http://127.0.0.1:8000/docs for the interactive Swagger UI.
+
+## Docker
+
+```bash
+docker build -t mic-prediction-api .
+docker run -d -p 8000:7860 mic-prediction-api
+```
+
+Then open http://127.0.0.1:8000/docs as above. The container listens on port 7860
+internally (the port Hugging Face Spaces expects); `-p 8000:7860` maps it to 8000
+on the host.
