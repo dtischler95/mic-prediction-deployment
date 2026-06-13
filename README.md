@@ -12,7 +12,7 @@ pinned: false
 # MIC Prediction Deployment
 
 A small deployment project: a fine-tuned [ProtBERT](https://huggingface.co/Rostlab/prot_bert_bfd)
-model that predicts the minimum inhibitory concentration (log₁₀ MIC, µM) of a peptide
+model that predicts the minimum inhibitory concentration (MIC, \[µM\]) of a peptide
 sequence against *Acinetobacter baumannii*, served via a FastAPI API and deployed as a
 Hugging Face Space (Docker), with GitHub Actions syncing pushes to the Space.
 
@@ -29,10 +29,10 @@ The frontend is served at https://danielt95-mic-prediction-api.hf.space/ui/index
 ## Endpoints
 
 - `GET /` - health check.
-- `POST /predict` - predict the log10 MIC for a peptide sequence given in the request body.
+- `POST /predict` - predict the MIC for a peptide sequence given in the request body.
   Sequence is validated: only the 20 standard amino acids, non-empty, max 36 residues.
 - `GET /predict-by-uniprot/{accession}` - fetch a sequence from UniProt by accession ID
-  (e.g. `P01308`) and predict its log10 MIC. Same validation as `/predict` applies to the
+  (e.g. `P01308`) and predict its MIC. Same validation as `/predict` applies to the
   fetched sequence.
 
 ## Local setup
