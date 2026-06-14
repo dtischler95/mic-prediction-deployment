@@ -4,10 +4,12 @@ import anyio
 import httpx
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, ValidationError, field_validator
 
-from app.model import MAX_LENGTH, load_model, predict
+from app.fasta import parse_input
+from app.model import MAX_LENGTH, load_model, predict, predict_batch
 
 app = FastAPI(title="MIC Prediction API")
 app.add_middleware(
@@ -20,6 +22,7 @@ app.mount("/ui", StaticFiles(directory="frontend", html=True), name="frontend")
 model, tokenizer = load_model()
 
 VALID_AMINO_ACIDS = set("ACDEFGHIKLMNPQRSTVWY")
+MAX_BATCH = 200
 
 
 class PredictionRequest(BaseModel):
@@ -49,10 +52,36 @@ class PredictionResponse(BaseModel):
     predicted_log10_mic: float
 
 
+class BatchRequest(BaseModel):
+    """Request body for /predict-batch: raw text, either one sequence per line or FASTA."""
+
+    text: str
+
+
+class BatchItem(BaseModel):
+    """One row of a batch result: prediction on success, error string on failure."""
+
+    id: str | None = None
+    sequence: str
+    predicted_log10_mic: float | None = None
+    error: str | None = None
+
+
+class BatchResponse(BaseModel):
+    """Response body for /predict-batch: one item per input record, order preserved."""
+
+    results: list[BatchItem]
+
+
+def _first_error(exc: ValidationError) -> str:
+    """Extract a concise message from a sequence ValidationError."""
+    return exc.errors()[0]["msg"].removeprefix("Value error, ")
+
+
 @app.get("/")
 def root():
-    """Health check / entry point pointing to the Swagger docs."""
-    return {"message": "MIC prediction API. See /docs for usage."}
+    """Redirect the bare URL to the web frontend."""
+    return RedirectResponse(url="/ui/")
 
 
 @app.post("/predict", response_model=PredictionResponse)
@@ -60,6 +89,42 @@ def predict_endpoint(request: PredictionRequest) -> PredictionResponse:
     """Predict the log10 MIC for a peptide sequence given directly in the request body."""
     value = predict(request.sequence, model, tokenizer)
     return PredictionResponse(sequence=request.sequence, predicted_log10_mic=value)
+
+
+@app.post("/predict-batch", response_model=BatchResponse)
+def predict_batch_endpoint(request: BatchRequest) -> BatchResponse:
+    """Predict the log10 MIC for many sequences at once (plain lines or FASTA).
+
+    Invalid sequences are not rejected wholesale: each gets an ``error`` while the
+    valid ones are still scored, in a single batched forward pass.
+    """
+    records = parse_input(request.text)
+    if not records:
+        raise HTTPException(status_code=422, detail="no sequences found in input")
+    if len(records) > MAX_BATCH:
+        raise HTTPException(
+            status_code=422,
+            detail=f"too many sequences ({len(records)} > {MAX_BATCH})",
+        )
+
+    items: list[BatchItem] = []
+    valid_indices: list[int] = []
+    valid_sequences: list[str] = []
+
+    for label, raw_sequence in records:
+        try:
+            validated = PredictionRequest(sequence=raw_sequence)
+        except ValidationError as exc:
+            items.append(BatchItem(id=label, sequence=raw_sequence, error=_first_error(exc)))
+            continue
+        valid_indices.append(len(items))
+        valid_sequences.append(validated.sequence)
+        items.append(BatchItem(id=label, sequence=validated.sequence))
+
+    for index, value in zip(valid_indices, predict_batch(valid_sequences, model, tokenizer)):
+        items[index].predicted_log10_mic = value
+
+    return BatchResponse(results=items)
 
 
 @app.get("/predict-by-uniprot/{accession}", response_model=PredictionResponse)

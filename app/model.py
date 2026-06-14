@@ -60,6 +60,17 @@ def predict(sequence: str, model: PeptideBertForRegression, tokenizer: BertToken
     return output.item()
 
 
+@torch.no_grad()
+def predict_batch(sequences: list[str], model: PeptideBertForRegression, tokenizer: BertTokenizer) -> list[float]:
+    """Predict log10(MIC) for a list of sequences in a single forward pass."""
+    if not sequences:
+        return []
+    spaced = [" ".join(s.strip().upper()) for s in sequences]
+    encoding = tokenizer(spaced, padding="max_length", truncation=True, max_length=MAX_LENGTH, return_tensors="pt")
+    output = model(input_ids=encoding["input_ids"], attention_mask=encoding["attention_mask"])
+    return output.squeeze(-1).tolist()
+
+
 if __name__ == "__main__":
     model, tokenizer = load_model()
 
