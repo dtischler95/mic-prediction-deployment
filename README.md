@@ -90,7 +90,7 @@ Spaces expects), `-p 8000:7860` maps it to 8000 on the host.
 
 `app/model.py` is the only model-specific file, and the model is chosen by the
 `MODEL_REPO` environment variable (defaulting to the A. baumannii model above). Swapping
-in another peptideTransformer model needs **no code change**:
+in another [peptideTransformer](https://github.com/dtischler95/peptideTransformer) model needs **no code change**:
 
 - **Locally:** `MODEL_REPO=youruser/your-model uvicorn app.main:app --port 8000`
 - **On a Hugging Face Space:** add a `MODEL_REPO` *Variable* (Settings → Variables and
