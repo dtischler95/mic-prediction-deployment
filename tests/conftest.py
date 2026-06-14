@@ -6,18 +6,12 @@ no network, and predictions are deterministic. The parser tests in test_fasta.py
 don't use this fixture and run without torch/transformers installed.
 """
 
-import os
-from pathlib import Path
-
 import pytest
 
 
 @pytest.fixture(scope="session")
 def client():
     """A FastAPI TestClient backed by a mocked model (no weights, no network)."""
-    # Run from the repo root so app.main's StaticFiles(directory="frontend") resolves.
-    os.chdir(Path(__file__).resolve().parents[1])
-
     # Patch the heavy bits before importing the app, so importing it loads no
     # weights and predictions are deterministic.
     import app.model as model_module

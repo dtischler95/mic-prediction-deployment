@@ -1,5 +1,7 @@
 """FastAPI service exposing the Acinetobacter baumannii MIC regression model."""
 
+from pathlib import Path
+
 import anyio
 import httpx
 from fastapi import FastAPI, HTTPException
@@ -18,7 +20,8 @@ app.add_middleware(
     allow_methods=["GET", "POST"],
     allow_headers=["*"],
 )
-app.mount("/ui", StaticFiles(directory="frontend", html=True), name="frontend")
+FRONTEND_DIR = Path(__file__).resolve().parent.parent / "frontend"
+app.mount("/ui", StaticFiles(directory=FRONTEND_DIR, html=True), name="frontend")
 model, tokenizer = load_model()
 
 VALID_AMINO_ACIDS = set("ACDEFGHIKLMNPQRSTVWY")
