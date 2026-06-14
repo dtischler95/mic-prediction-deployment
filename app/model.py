@@ -10,13 +10,17 @@ from the peptideTransformer thesis repo: the backbone is built directly from con
 (no separate ProtBERT-BFD download) and all weights come from the fine-tuned checkpoint.
 """
 
+import os
+
 import torch
 import torch.nn as nn
 from transformers import BertConfig, BertModel, BertTokenizer
 from huggingface_hub import hf_hub_download
 from safetensors.torch import load_file
 
-MODEL_REPO = "danielt95/acinetobacter-baumannii-mic-bert"
+# Which Hugging Face model repo to serve. Override via the MODEL_REPO env var
+# (e.g. a Space "Variable") to deploy a different, same-architecture model.
+MODEL_REPO = os.environ.get("MODEL_REPO", "danielt95/acinetobacter-baumannii-mic-bert")
 MAX_LENGTH = 36
 
 
